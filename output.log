@@ -1,0 +1,191 @@
+Script started on Tue Apr  7 14:19:26 2026
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hㅣ  lls[?2004l
+README.md	output		output.log
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hcchmod   c  lls -l[?2004l
+total 24
+-rw-r--r--  1 adohi08243536  adohi08243536   23 Apr  7 14:04 README.md
+-rw-r--r--  1 adohi08243536  adohi08243536  663 Apr  7 14:19 output
+-rw-r--r--  1 adohi08243536  adohi08243536  672 Apr  7 14:32 output.log
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hcchomo   mod 755   000 rem   README.md[1m [0m[0m [?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hlls -l[?2004l
+total 24
+----------  1 adohi08243536  adohi08243536    23 Apr  7 14:04 README.md
+-rw-r--r--  1 adohi08243536  adohi08243536   663 Apr  7 14:19 output
+-rw-r--r--  1 adohi08243536  adohi08243536  1559 Apr  7 14:33 output.log
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hccat README.md[?2004l
+cat: README.md: Permission denied
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hcchmod REa  e  644 re  README.md[1m [0m[0m [?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hlls -l[?2004l
+total 24
+-rw-r--r--  1 adohi08243536  adohi08243536    23 Apr  7 14:04 README.md
+-rw-r--r--  1 adohi08243536  adohi08243536   663 Apr  7 14:19 output
+-rw-r--r--  1 adohi08243536  adohi08243536  1559 Apr  7 14:33 output.log
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hmmkdir DirForTest[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hcchmod 00  444 dir   DirForTest[1m/[0m[0m [?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hccd dir   DirForTest[1m/[0m[0m [?2004l
+cd: permission denied: DirForTest
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hlls -l[?2004l
+total 24
+dr--r--r--  2 adohi08243536  adohi08243536    64 Apr  7 14:34 DirForTest
+-rw-r--r--  1 adohi08243536  adohi08243536    23 Apr  7 14:04 README.md
+-rw-r--r--  1 adohi08243536  adohi08243536   663 Apr  7 14:19 output
+-rw-r--r--  1 adohi08243536  adohi08243536  3295 Apr  7 14:33 output.log
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hllsl  cchmod 644 DirForTest[1m/[0m[0m [?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hccd Di` rForTest[1m/[0m[0m [?2004l
+cd: permission denied: DirForTest
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hlls -l[?2004l
+total 32
+drw-r--r--  2 adohi08243536  adohi08243536    64 Apr  7 14:34 DirForTest
+-rw-r--r--  1 adohi08243536  adohi08243536    23 Apr  7 14:04 README.md
+-rw-r--r--  1 adohi08243536  adohi08243536   663 Apr  7 14:19 output
+-rw-r--r--  1 adohi08243536  adohi08243536  4902 Apr  7 14:34 output.log
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hcchmod 755 DirForTest[1m/[0m[0m [?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hccd d DirForTest[1m/[0m[0m [?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01/DirForTest[0m[27m[24m[Jadohi08243536@c4r4s3 DirForTest % [K[?2004hccd ..[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hcd ..DirForTest[13Dchmod 755 DirForTest5[P[12C [14D[2C5 DirForTest[13D[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hchmod 555 DirForTest[20Dcd ..               [15Dchmod 555 DirForTest[20Dcd ..               [15DDirForTest[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01/DirForTest[0m[27m[24m[Jadohi08243536@c4r4s3 DirForTest % [K[?2004httouch test,t  .tex  xt[?2004l
+touch: test.txt: Permission denied
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01/DirForTest[0m[27m[24m[Jadohi08243536@c4r4s3 DirForTest % [K[?2004hllsl  ccd ..[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hcd ..touch test.txt[14Dcd DirForTest [13Dchmod 555 DirForTest[20Dcd ..               [15DDirForTest[13Dchmod 755 DirForTest[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hㅔ  ppwd[?2004l
+/Users/adohi08243536/Desktop/Assignment1/Codyssey_01
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hlls -al[?2004l
+total 40
+drwxr-xr-x   7 adohi08243536  adohi08243536   224 Apr  7 14:34 .
+drwxr-xr-x   3 adohi08243536  adohi08243536    96 Apr  7 14:02 ..
+drwxr-xr-x  12 adohi08243536  adohi08243536   384 Apr  7 14:04 .git
+drwxr-xr-x   2 adohi08243536  adohi08243536    64 Apr  7 14:34 DirForTest
+-rw-r--r--   1 adohi08243536  adohi08243536    23 Apr  7 14:04 README.md
+-rw-r--r--   1 adohi08243536  adohi08243536   663 Apr  7 14:19 output
+-rw-r--r--   1 adohi08243536  adohi08243536  9040 Apr  7 14:36 output.log
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hlls[?2004l
+DirForTest	README.md	output		output.log
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hccp DirFor      c  ttouch text.   st.txt[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hlls[?2004l
+DirForTest	README.md	output		output.log	test.txt
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004httot  mmbm mv test,t  .ts t xt newTest.ts xt[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hlls[?2004l
+DirForTest	README.md	newTest.txt	output		output.log
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hmmv newTest.txt DirForTest[1m/[0m[0m [?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hccp -r DirForTest[1m/[0m[0m NewDirForTest[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hlls[?2004l
+DirForTest	NewDirForTest	README.md	output		output.log
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hccd ?new    NewDirForTest[1m/[0m[0m [?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01/NewDirForTest[0m[27m[24m[Jadohi08243536@c4r4s3 NewDirForTest % [K[?2004hlls[?2004l
+newTest.txt
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01/NewDirForTest[0m[27m[24m[Jadohi08243536@c4r4s3 NewDirForTest % [K[?2004hccat newTest.txt[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01/NewDirForTest[0m[27m[24m[Jadohi08243536@c4r4s3 NewDirForTest % [K[?2004hrrm newTest.txt[1m [0m[0m [?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01/NewDirForTest[0m[27m[24m[Jadohi08243536@c4r4s3 NewDirForTest % [K[?2004hlls[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01/NewDirForTest[0m[27m[24m[Jadohi08243536@c4r4s3 NewDirForTest % [K[?2004hccd ..[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hlls[?2004l
+DirForTest	NewDirForTest	README.md	output		output.log
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hmmkfir    dir DOck   ockerStudy[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hccd DockerStudy[1m/[0m[0m [?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01/DockerStudy[0m[27m[24m[Jadohi08243536@c4r4s3 DockerStudy % [K[?2004hddor cker --vert sion[?2004l
+Docker version 28.5.2, build ecc6942
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01/DockerStudy[0m[27m[24m[Jadohi08243536@c4r4s3 DockerStudy % [K[?2004hddocker info[?2004l
+Client:
+ Version:    28.5.2
+ Context:    orbstack
+ Debug Mode: false
+ Plugins:
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.29.1
+    Path:     /Users/adohi08243536/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v2.40.3
+    Path:     /Users/adohi08243536/.docker/cli-plugins/docker-compose
+
+Server:
+ Containers: 0
+  Running: 0
+  Paused: 0
+  Stopped: 0
+ Images: 0
+ Server Version: 28.5.2
+ Storage Driver: overlay2
+  Backing Filesystem: btrfs
+  Supports d_type: true
+  Using metacopy: false
+  Native Overlay Diff: true
+  userxattr: false
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Cgroup Version: 2
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+ CDI spec directories:
+  /etc/cdi
+  /var/run/cdi
+ Swarm: inactive
+ Runtimes: io.containerd.runc.v2 runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: 1c4457e00facac03ce1d75f7b6777a7a851e5c41
+ runc version: d842d7719497cc3b774fd71620278ac9e17710e0
+ init version: de40ad0
+ Security Options:
+  seccomp
+   Profile: builtin
+  cgroupns
+ Kernel Version: 6.17.8-orbstack-00308-g8f9c941121b1
+ Operating System: OrbStack
+ OSType: linux
+ Architecture: x86_64
+ CPUs: 6
+ Total Memory: 15.67GiB
+ Name: orbstack
+ ID: 11aba0a1-865d-4c31-b3ff-cd7fbdfee001
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ Experimental: false
+ Insecure Registries:
+  ::1/128
+  127.0.0.0/8
+ Live Restore Enabled: false
+ Product License: Community Engine
+ Default Address Pools:
+   Base: 192.168.97.0/24, Size: 24
+   Base: 192.168.107.0/24, Size: 24
+   Base: 192.168.117.0/24, Size: 24
+   Base: 192.168.147.0/24, Size: 24
+   Base: 192.168.148.0/24, Size: 24
+   Base: 192.168.155.0/24, Size: 24
+   Base: 192.168.156.0/24, Size: 24
+   Base: 192.168.158.0/24, Size: 24
+   Base: 192.168.163.0/24, Size: 24
+   Base: 192.168.164.0/24, Size: 24
+   Base: 192.168.165.0/24, Size: 24
+   Base: 192.168.166.0/24, Size: 24
+   Base: 192.168.167.0/24, Size: 24
+   Base: 192.168.171.0/24, Size: 24
+   Base: 192.168.172.0/24, Size: 24
+   Base: 192.168.181.0/24, Size: 24
+   Base: 192.168.183.0/24, Size: 24
+   Base: 192.168.186.0/24, Size: 24
+   Base: 192.168.207.0/24, Size: 24
+   Base: 192.168.214.0/24, Size: 24
+   Base: 192.168.215.0/24, Size: 24
+   Base: 192.168.216.0/24, Size: 24
+   Base: 192.168.223.0/24, Size: 24
+   Base: 192.168.227.0/24, Size: 24
+   Base: 192.168.228.0/24, Size: 24
+   Base: 192.168.229.0/24, Size: 24
+   Base: 192.168.237.0/24, Size: 24
+   Base: 192.168.239.0/24, Size: 24
+   Base: 192.168.242.0/24, Size: 24
+   Base: 192.168.247.0/24, Size: 24
+   Base: fd07:b51a:cc66:d000::/56, Size: 64
+
+WARNING: DOCKER_INSECURE_NO_IPTABLES_RAW is set
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01/DockerStudy[0m[27m[24m[Jadohi08243536@c4r4s3 DockerStudy % [K[?2004hccd ..  c  lls[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01/DockerStudy[0m[27m[24m[Jadohi08243536@c4r4s3 DockerStudy % [K[?2004hccd ..[?2004l
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004h햣   햣   ggitadd     add.[?2004l
+git: 'add.' is not a git command. See 'git --help'.
+
+The most similar command is
+	add
+[1m[7m%[27m[1m[0m                                                                                                           ]7;file://c4r4s3.codyssey.kr/Users/adohi08243536/Desktop/Assignment1/Codyssey_01[0m[27m[24m[Jadohi08243536@c4r4s3 Codyssey_01 % [K[?2004hgit add. 
