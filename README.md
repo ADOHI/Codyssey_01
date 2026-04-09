@@ -70,6 +70,12 @@ Git 기본 활용법 습득
 
     adohi08243536@c4r2s7 Codyssey_01 % mv testdir1 testdir3
     mv: rename testdir1 to testdir3: Permission denied
+### 권한 표기 규칙
+파일 권한 숫자 표기 규칙: 8진법 합산 방식 (Read: 4, Write: 2, Execute: 1)
+
+755 (rwxr-xr-x): 소유자 전권한, 그 외 읽기/실행. (디렉토리에 필수)
+
+644 (rw-r--r--): 소유자 읽기/쓰기, 그 외 읽기 전용. (일반 파일 권한)
 ## 3. 도커 설치 및 기본 점검
     adohi08243536@c4r2s7 Codyssey_01 % docker --version
     Docker version 28.5.2, build ecc6942
@@ -337,6 +343,15 @@ CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS       
 f45f41c478f8   ubuntu    "/bin/bash"              9 minutes ago    Up 36 seconds                                             my-ubuntu
 5e63bfaacf20   nginx     "/docker-entrypoint.…"   19 minutes ago   Up 19 minutes   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   test-nginx
 
+### image vs container
+이미지 vs 컨테이너 (빌드/실행/변경)
+
+빌드(Build): 이미지는 Dockerfile을 통해 생성된 읽기 전용(Read-only) 템플릿입니다. 변경이 필요하면 다시 빌드해야 합니다.
+
+실행(Run): 컨테이너는 이미지 위에 **쓰기 가능한 레이어(Writable Layer)**가 추가되어 실제로 동작하는 프로세스입니다.
+
+변경(Change): 컨테이너 내부의 변경사항은 삭제 시 휘발되지만, 이미지는 불변(Immutable) 상태로 유지됩니다.
+
 ## 6. docker 기반 커스텀 이미지 제작
 ### 1. docker image 선택
 선택한 베이스 이미지
@@ -444,7 +459,10 @@ adohi08243536@c4r2s7 docker-test % docker ps --format "table {{.Names}}\t{{.Stat
 NAMES           STATUS                    PORTS
 
 my-web-server   Up 28 minutes (healthy)   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp
+### 포트 매핑의 원리와 필요성
+접속 불가 이유: 컨테이너는 호스트와 격리된 별도의 가상 네트워크 환경을 가집니다. 따라서 호스트 IP와 컨테이너 IP가 달라 외부에서 내부 포트로 직접 접근이 불가능합니다.
 
+필요성: 보안 및 포트 관리를 위해 필요합니다. 호스트의 특정 포트(예: 8080)만 열어 내부 포트(80)와 연결함으로써 서비스 노출을 제어할 수 있습니다.
 ## 7. docker 볼륨 영속성 검증
 ### 1. docker 볼륨 생성 및 연결
 adohi08243536@c4r2s7 docker-test % docker volume create my-data-vol
