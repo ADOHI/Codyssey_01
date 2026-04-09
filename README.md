@@ -480,7 +480,22 @@ adohi08243536@c4r2s7 docker-test % curl http://localhost:8888/test.txt
 
 Persistence Test Success
 
+### 3. 바인드 마운트
+adohi08243536@c4r2s7 Codyssey_01 % mkdir html
 
+adohi08243536@c4r2s7 Codyssey_01 % echo "Before Change" > html/index.html
+
+adohi08243536@c4r2s7 Codyssey_01 % curl http://localhost:8081
+
+Before Change
+
+adohi08243536@c4r2s7 Codyssey_01 % echo "After Change - Bind Mount Success" > html/index.html
+
+adohi08243536@c4r2s7 Codyssey_01 % curl http://localhost:8081                                
+
+After Change - Bind Mount Success
+
+실시간으로 반영됨
 ## 8. 트러블 슈팅
 ### html 인코딩 오류
 한글 인코딩이 깨져서 외계어처럼 나와서 메타 코드를 삽입하여 해결
