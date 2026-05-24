@@ -646,3 +646,66 @@ openat(AT_FDCWD, "/home/agent-admin/agent-app/api_keys/secret.key", O_RDONLY|O_C
   - `AGENT_KEY_PATH=/home/agent-admin/agent-app/api_keys`
   - `/home/agent-admin/agent-app/api_keys/secret.key`
   - 파일 내용: `agent_api_key_test`
+
+---
+
+## 9) WSL(Ubuntu)에서 클론 후 재현 절차
+
+아래 순서대로 하면 동일 환경에서 재현할 수 있습니다.
+
+### 1. WSL 진입 및 레포 클론
+
+```bash
+wsl -d Ubuntu
+cd ~
+git clone https://github.com/ADOHI/Codyssey_01.git
+cd Codyssey_01
+chmod +x monitor.sh report.sh log_retention.sh
+```
+
+### 2. 제공 앱 준비
+
+이 레포에는 제공 앱 바이너리가 포함되어 있지 않습니다.  
+제공된 `agent-app.zip`을 별도로 준비하여 `agent_app` 실행 파일을 배치해야 합니다.
+
+```bash
+# 예시: 이미 /mnt/c/Users/... 경로에 압축을 풀어둔 경우
+sudo cp /mnt/c/Users/adohi/Desktop/Codyssey_01/agent-app-src/agent-app-linux-x86 /home/agent-admin/agent-app/agent_app
+sudo chown agent-admin:agent-core /home/agent-admin/agent-app/agent_app
+sudo chmod 750 /home/agent-admin/agent-app/agent_app
+```
+
+### 3. 스크립트 배포
+
+```bash
+sudo install -d -m 750 -o agent-dev -g agent-core /home/agent-admin/agent-app/bin
+sudo cp monitor.sh /home/agent-admin/agent-app/bin/monitor.sh
+sudo cp report.sh /home/agent-admin/agent-app/bin/report.sh
+sudo cp log_retention.sh /home/agent-admin/agent-app/bin/log_retention.sh
+sudo chown agent-dev:agent-core /home/agent-admin/agent-app/bin/*.sh
+sudo chmod 750 /home/agent-admin/agent-app/bin/*.sh
+```
+
+### 4. 앱 실행 및 리슨 확인
+
+```bash
+sudo runuser -u agent-admin -- bash -lc 'source /etc/profile.d/agent-app.sh; /home/agent-admin/agent-app/agent_app'
+ss -tulnp | awk '/:15034/ {print}'
+```
+
+### 5. 모니터링/로그/크론 확인
+
+```bash
+sudo runuser -u agent-admin -- bash -lc '/home/agent-admin/agent-app/bin/monitor.sh'
+sudo tail -n 5 /var/log/agent-app/monitor.log
+sudo crontab -u agent-admin -l
+```
+
+### 참고: WSL에서 git 커밋할 때
+
+WSL 내부에서 직접 커밋하려면 사용자 정보를 1회 설정합니다.
+
+```bash
+git config --global user.name "YOUR_NAME"
+git config --global user.email "YOUR_EMAIL"
+```
