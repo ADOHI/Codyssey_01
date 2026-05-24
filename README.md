@@ -558,3 +558,68 @@ install -d -m 2770 -o agent-admin -g agent-core /var/log/monitor/agent-app/archi
 - 매분 실행으로 시계열 데이터가 쌓이면, 특정 시간대 문제를 정확히 재구성할 수 있습니다.
 - 로그를 무한히 쌓으면 디스크를 압박하므로, 로테이션/압축/삭제 정책이 필수입니다.
 - 이 과제에서는 `monitor.sh`의 용량 기반 로테이션과 `log_retention.sh`의 시간 기반 보존 정책을 함께 적용했습니다.
+
+---
+
+## 8) 트러블슈팅 (문서-실행 불일치 분석 포함)
+
+### 이슈 1. `AGENT_KEY_PATH` 문서값 그대로 적용 시 부트 실패
+
+- 증상:
+  - 문서처럼 `AGENT_KEY_PATH=/home/.../api_keys/t_secret.key`로 설정하면 Boot Sequence [2/5]에서 실패
+  - 메시지: `Key Path Mismatch. Expected: /home/agent-admin/agent-app/api_keys`
+- 원인:
+  - 제공 문서는 `AGENT_KEY_PATH`를 파일 경로처럼 안내하지만, 실제 앱은 디렉토리 경로를 기대
+- 조치:
+  - `AGENT_KEY_PATH=/home/agent-admin/agent-app/api_keys`로 보정
+
+### 이슈 2. 파일명 불일치 (`t_secret.key` vs `secret.key`)
+
+- 증상:
+  - `AGENT_KEY_PATH`를 디렉토리로 수정한 뒤 Boot Sequence [3/5]에서 실패
+  - 메시지: `Missing File: secret.key`
+- 원인:
+  - 앱 내부 검증 로직이 `secret.key` 파일명으로 고정돼 있음
+- 조치:
+  - `/home/agent-admin/agent-app/api_keys/secret.key` 생성
+  - 파일 내용 `agent_api_key_test` 입력
+
+### 정적 분석 시도 결과
+
+- `file /home/agent-admin/agent-app/agent_app` 결과:
+  - `ELF 64-bit ... stripped`
+- `strings`로 핵심 문자열을 추출하려 했지만 정보가 제한적이었음
+- 해석:
+  - stripped 바이너리라 정적 문자열 기반 역분석만으로는 한계
+
+### 동적 분석(`strace`)으로 최종 확인
+
+- 실행 명령어:
+
+```bash
+# root에서 실행 (필요 시)
+apt-get install -y strace
+
+# 일반 계정 컨텍스트에서 앱 실행 + 파일 접근 추적
+runuser -u agent-admin -- bash -lc 'source /etc/profile.d/agent-app.sh; timeout 6s strace -f -e trace=openat,access /home/agent-admin/agent-app/agent_app'
+```
+
+- 핵심 근거(실제 추적):
+
+```text
+access("/home/agent-admin/agent-app/api_keys/secret.key", R_OK) = 0
+openat(AT_FDCWD, "/home/agent-admin/agent-app/api_keys/secret.key", O_RDONLY|O_CLOEXEC) = 3
+...
+[2/5] Verifying Environment Variables     [OK]
+[3/5] Checking Required Files             [OK]
+... Verified 'secret.key' with correct key string.
+```
+
+### 결론
+
+- `AGENT_KEY_PATH`는 **키 파일 경로가 아니라 키 디렉토리 경로**를 넣어야 한다.
+- 앱은 해당 디렉토리에서 **`secret.key`** 파일을 찾는다.
+- 따라서 본 과제 최종 적용값은 아래가 정답 동작 조합이다.
+  - `AGENT_KEY_PATH=/home/agent-admin/agent-app/api_keys`
+  - `/home/agent-admin/agent-app/api_keys/secret.key`
+  - 파일 내용: `agent_api_key_test`
