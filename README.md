@@ -45,6 +45,21 @@
   - `ssh.socket` 비활성화
   - `ssh.service` 재시작 후 20022 리슨 확인
 
+실행 명령어:
+
+```bash
+# root에서 실행
+cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak_codyssey
+sed -i -E 's/^#?Port .*/Port 20022/' /etc/ssh/sshd_config
+sed -i -E 's/^#?PermitRootLogin .*/PermitRootLogin no/' /etc/ssh/sshd_config
+systemctl disable --now ssh.socket
+systemctl enable --now ssh
+
+# 검증
+awk '/^Port / || /^PermitRootLogin / {print}' /etc/ssh/sshd_config
+ss -tulnp | awk '/:20022/ {print}'
+```
+
 검증 결과:
 
 ```text
@@ -62,6 +77,23 @@ tcp LISTEN ... 0.0.0.0:20022 ... ("sshd"...)
 - 허용 포트
   - `20022/tcp`
   - `15034/tcp`
+
+실행 명령어:
+
+```bash
+# root에서 실행
+apt-get update
+apt-get install -y ufw
+ufw --force reset
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow 20022/tcp
+ufw allow 15034/tcp
+ufw --force enable
+
+# 검증
+ufw status
+```
 
 검증 결과:
 
@@ -85,6 +117,29 @@ Status: active
   - `agent-common`: admin, dev, test
   - `agent-core`: admin, dev
 
+실행 명령어:
+
+```bash
+# root에서 실행
+groupadd -f agent-common
+groupadd -f agent-core
+
+id -u agent-admin >/dev/null 2>&1 || useradd -m -s /bin/bash agent-admin
+id -u agent-dev   >/dev/null 2>&1 || useradd -m -s /bin/bash agent-dev
+id -u agent-test  >/dev/null 2>&1 || useradd -m -s /bin/bash agent-test
+
+usermod -aG agent-common agent-admin
+usermod -aG agent-common agent-dev
+usermod -aG agent-common agent-test
+usermod -aG agent-core agent-admin
+usermod -aG agent-core agent-dev
+
+# 검증
+id agent-admin
+id agent-dev
+id agent-test
+```
+
 검증 요약:
 
 - `agent-admin`: `agent-common`, `agent-core` 포함
@@ -102,6 +157,27 @@ Status: active
   - `upload_files`: group=`agent-common`, rwx
   - `api_keys`, `/var/log/agent-app`: group=`agent-core`, rwx
 - ACL 적용 확인(`getfacl`)
+
+실행 명령어:
+
+```bash
+# root에서 실행
+apt-get install -y acl
+install -d -m 750  -o agent-admin -g agent-core   /home/agent-admin/agent-app
+install -d -m 2770 -o agent-admin -g agent-common /home/agent-admin/agent-app/upload_files
+install -d -m 2770 -o agent-admin -g agent-core   /home/agent-admin/agent-app/api_keys
+install -d -m 2770 -o agent-admin -g agent-core   /var/log/agent-app
+
+setfacl -m g:agent-common:rwx /home/agent-admin/agent-app/upload_files
+setfacl -m g:agent-core:rwx   /home/agent-admin/agent-app/api_keys
+setfacl -m g:agent-core:rwx   /var/log/agent-app
+
+# 검증
+ls -ld /home/agent-admin/agent-app /home/agent-admin/agent-app/upload_files /home/agent-admin/agent-app/api_keys /var/log/agent-app
+getfacl -p /home/agent-admin/agent-app/upload_files
+getfacl -p /home/agent-admin/agent-app/api_keys
+getfacl -p /var/log/agent-app
+```
 
 검증 결과(요약):
 
@@ -123,10 +199,33 @@ Status: active
 - `AGENT_KEY_PATH=/home/agent-admin/agent-app/api_keys`  (실앱 기준 보정)
 - `AGENT_LOG_DIR=/var/log/agent-app`
 
+실행 명령어:
+
+```bash
+# root에서 실행
+cat > /etc/profile.d/agent-app.sh <<'EOF'
+export AGENT_HOME=/home/agent-admin/agent-app
+export AGENT_PORT=15034
+export AGENT_UPLOAD_DIR=/home/agent-admin/agent-app/upload_files
+export AGENT_KEY_PATH=/home/agent-admin/agent-app/api_keys
+export AGENT_LOG_DIR=/var/log/agent-app
+EOF
+chmod 644 /etc/profile.d/agent-app.sh
+```
+
 #### C-2. 키 파일
 
 - `/home/agent-admin/agent-app/api_keys/secret.key`
 - 내용: `agent_api_key_test`
+
+실행 명령어:
+
+```bash
+# root에서 실행
+printf '%s\n' 'agent_api_key_test' > /home/agent-admin/agent-app/api_keys/secret.key
+chown agent-admin:agent-core /home/agent-admin/agent-app/api_keys/secret.key
+chmod 640 /home/agent-admin/agent-app/api_keys/secret.key
+```
 
 #### C-3. 앱 실행 검증
 
@@ -134,6 +233,24 @@ Status: active
 - Boot Sequence 5단계 모두 `[OK]`
 - 마지막에 `Agent READY` 출력
 - `0.0.0.0:15034` LISTEN 확인
+
+실행 명령어:
+
+```bash
+# root에서 실행
+cp /mnt/c/Users/adohi/Desktop/Codyssey_01/agent-app-src/agent-app-linux-x86 /home/agent-admin/agent-app/agent_app
+chown agent-admin:agent-core /home/agent-admin/agent-app/agent_app
+chmod 750 /home/agent-admin/agent-app/agent_app
+
+# 앱 실행(일반 계정)
+runuser -u agent-admin -- bash -lc 'source /etc/profile.d/agent-app.sh; /home/agent-admin/agent-app/agent_app'
+
+# 백그라운드 실행 시
+runuser -u agent-admin -- bash -lc 'source /etc/profile.d/agent-app.sh; nohup /home/agent-admin/agent-app/agent_app >/home/agent-admin/agent-app/agent-app.out 2>&1 &'
+
+# 검증
+ss -tulnp | awk '/:15034/ {print}'
+```
 
 실행 로그 발췌:
 
@@ -200,6 +317,23 @@ DISK Used : 1%
 [INFO] Log appended: /var/log/agent-app/monitor.log
 ```
 
+배포/실행 명령어:
+
+```bash
+# root에서 실행
+install -d -m 750 -o agent-dev -g agent-core /home/agent-admin/agent-app/bin
+cp /mnt/c/Users/adohi/Desktop/Codyssey_01/monitor.sh /home/agent-admin/agent-app/bin/monitor.sh
+sed -i 's/\r$//' /home/agent-admin/agent-app/bin/monitor.sh
+chown agent-dev:agent-core /home/agent-admin/agent-app/bin/monitor.sh
+chmod 750 /home/agent-admin/agent-app/bin/monitor.sh
+
+# 수동 실행(일반 계정)
+runuser -u agent-admin -- bash -lc '/home/agent-admin/agent-app/bin/monitor.sh'
+
+# 로그 확인
+tail -n 5 /var/log/agent-app/monitor.log
+```
+
 ---
 
 ### 단위 E. cron 자동 실행
@@ -216,6 +350,22 @@ DISK Used : 1%
 - 등록 전후 확인
 - 1분 이상 대기 후 `monitor.log` 라인 수 증가 확인
   - 예: `8 -> 9` 증가
+
+실행 명령어:
+
+```bash
+# root에서 실행
+systemctl enable --now cron
+crontab -u agent-admin -l 2>/dev/null | sed '/monitor.sh/d' > /tmp/agent_admin_cron_new
+printf '%s\n' '* * * * * /home/agent-admin/agent-app/bin/monitor.sh' >> /tmp/agent_admin_cron_new
+crontab -u agent-admin /tmp/agent_admin_cron_new
+
+# 검증
+crontab -u agent-admin -l
+wc -l /var/log/agent-app/monitor.log
+sleep 70
+wc -l /var/log/agent-app/monitor.log
+```
 
 ---
 
@@ -238,6 +388,16 @@ DISK Used : 1%
 /home/agent-admin/agent-app/bin/report.sh /var/log/agent-app/monitor.log
 ```
 
+배포 명령어:
+
+```bash
+# root에서 실행
+cp /mnt/c/Users/adohi/Desktop/Codyssey_01/report.sh /home/agent-admin/agent-app/bin/report.sh
+sed -i 's/\r$//' /home/agent-admin/agent-app/bin/report.sh
+chown agent-dev:agent-core /home/agent-admin/agent-app/bin/report.sh
+chmod 750 /home/agent-admin/agent-app/bin/report.sh
+```
+
 #### F-2. log_retention.sh (시간 기반 보존 정책)
 
 - 파일: `./log_retention.sh`
@@ -255,6 +415,19 @@ DISK Used : 1%
 
 ```bash
 /home/agent-admin/agent-app/bin/log_retention.sh
+```
+
+배포/사전 준비 명령어:
+
+```bash
+# root에서 실행
+cp /mnt/c/Users/adohi/Desktop/Codyssey_01/log_retention.sh /home/agent-admin/agent-app/bin/log_retention.sh
+sed -i 's/\r$//' /home/agent-admin/agent-app/bin/log_retention.sh
+chown agent-dev:agent-core /home/agent-admin/agent-app/bin/log_retention.sh
+chmod 750 /home/agent-admin/agent-app/bin/log_retention.sh
+
+# 아카이브 경로 권한 준비
+install -d -m 2770 -o agent-admin -g agent-core /var/log/monitor/agent-app/archive
 ```
 
 ---
