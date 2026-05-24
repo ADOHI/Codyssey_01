@@ -465,6 +465,26 @@ AFTER:
 /home/agent-admin/agent-app/bin/report.sh /var/log/agent-app/monitor.log
 ```
 
+실행 결과(실제 출력):
+
+```text
+====== STATISTICS REPORT ======
+[CPU]
+Average : 0.65%
+Maximum : 1.40% at 2026-05-24 13:07:02
+Minimum : 0.00% at 2026-05-24 13:55:02
+[Memory]
+Average : 6.99%
+Maximum : 7.10% at 2026-05-24 13:18:02
+Minimum : 5.40% at 2026-05-24 13:12:02
+[Disk]
+Average : 1.00%
+Maximum : 1.00% at 2026-05-24 13:04:31
+Minimum : 1.00% at 2026-05-24 13:04:31
+[Samples]
+Data Points: 138 samples
+```
+
 배포 명령어:
 
 ```bash
