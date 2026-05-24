@@ -1,6 +1,21 @@
 #!/usr/bin/env bash
 set -u
 
+# ---------------------------------------------------------------------------
+# monitor.sh
+# ---------------------------------------------------------------------------
+# 목적:
+#   1) 서비스 헬스 체크(프로세스/포트)
+#   2) 시스템 리소스 수집(CPU/MEM/DISK)
+#   3) 임계치 경고 출력
+#   4) monitor.log 누적 기록 및 용량 기반 로테이션
+#
+# 동작 원칙:
+#   - Health Check 실패(프로세스/포트)는 즉시 exit 1
+#   - 방화벽/임계치 초과는 경고만 남기고 계속 진행
+#   - 로그는 append(>>)로 누적해 사후 분석 가능하도록 유지
+# ---------------------------------------------------------------------------
+
 # 환경 변수는 외부에서 주입 가능하고, 없으면 과제 기본값을 사용한다.
 AGENT_HOME="${AGENT_HOME:-/home/agent-admin/agent-app}"
 AGENT_PORT="${AGENT_PORT:-15034}"
@@ -18,16 +33,26 @@ MAX_ROTATED=10
 # monitor.log가 MAX_BYTES를 넘으면 숫자 suffix 방식으로 회전한다.
 # 예: monitor.log -> monitor.log.1, 기존 .1은 .2 ... .10 유지
 rotate_logs() {
+  # 로그 파일이 없으면 회전할 필요가 없으므로 바로 종료
   [ -f "$LOG_FILE" ] || return 0
   local size
+
+  # stat 실패 시 0으로 간주해 스크립트가 죽지 않도록 방어
   size=$(stat -c '%s' "$LOG_FILE" 2>/dev/null || echo 0)
+
+  # 임계 크기 미만이면 회전하지 않음
   [ "$size" -lt "$MAX_BYTES" ] && return 0
 
+  # 가장 오래된 세대는 삭제(최대 개수 유지)
   [ -f "${LOG_FILE}.${MAX_ROTATED}" ] && rm -f "${LOG_FILE}.${MAX_ROTATED}"
   local idx
+
+  # 뒤에서 앞으로 rename (예: .9 -> .10)
   for ((idx=MAX_ROTATED-1; idx>=1; idx--)); do
     [ -f "${LOG_FILE}.${idx}" ] && mv "${LOG_FILE}.${idx}" "${LOG_FILE}.$((idx+1))"
   done
+
+  # 현재 로그를 .1로 이동하고 새 로그 파일 생성
   mv "$LOG_FILE" "${LOG_FILE}.1"
   : > "$LOG_FILE"
 }
@@ -35,6 +60,8 @@ rotate_logs() {
 # /proc/stat 두 시점 샘플(1초 간격)을 비교해 CPU 사용률(%)을 계산한다.
 # 계산식: (총증가틱 - 유휴증가틱) / 총증가틱 * 100
 get_cpu_usage() {
+  # Linux /proc/stat의 CPU 틱 누적값은 "부팅 이후 누적치"이므로
+  # 두 시점 차분으로 현재 구간 사용률을 계산해야 한다.
   local user1 nice1 sys1 idle1 iowait1 irq1 softirq1 steal1 t1 id1
   local user2 nice2 sys2 idle2 iowait2 irq2 softirq2 steal2 t2 id2
   read -r _ user1 nice1 sys1 idle1 iowait1 irq1 softirq1 steal1 _ < /proc/stat
@@ -44,6 +71,8 @@ get_cpu_usage() {
   t2=$((user2 + nice2 + sys2 + idle2 + iowait2 + irq2 + softirq2 + steal2))
   id1=$((idle1 + iowait1))
   id2=$((idle2 + iowait2))
+
+  # total==0 방어 후 소수점 한 자리로 출력
   awk -v total="$((t2-t1))" -v idle="$((id2-id1))" 'BEGIN { if (total <= 0) print "0.0"; else printf "%.1f", (100*(total-idle)/total) }'
 }
 
@@ -55,6 +84,7 @@ is_number_gt() {
 printf '====== SYSTEM MONITOR RESULT ======\n\n'
 printf '[HEALTH CHECK]\n'
 
+# 1) 프로세스 존재 확인
 PID=$(pgrep -f "$APP_PATTERN" | head -n 1 || true)
 if [ -z "$PID" ]; then
   printf "Checking process 'agent_app.py'... [FAIL]\n"
@@ -65,6 +95,7 @@ fi
 printf "Checking process 'agent_app.py'... [OK] (PID: %s)\n" "$PID"
 
 # ss 출력에서 "tcp LISTEN"이며 대상 포트가 포함된 라인이 있는지 검사한다.
+# 2) 포트 LISTEN 확인
 if ss -tuln | awk -v p=":${AGENT_PORT}" '$1=="tcp" && $2=="LISTEN" && index($5,p)>0 {found=1} END{exit !found}'; then
   printf 'Checking port %s... [OK]\n\n' "$AGENT_PORT"
 else
@@ -74,6 +105,7 @@ else
 fi
 
 FW_ACTIVE=0
+# 3) 방화벽 활성 상태 점검 (경고만)
 if command -v ufw >/dev/null 2>&1; then
   # ufw status는 일반 계정 cron에서 실패할 수 있어 ufw.conf를 직접 읽는다.
   if awk -F= '/^ENABLED=/{if($2=="yes") found=1} END{exit !found}' /etc/ufw/ufw.conf 2>/dev/null; then
@@ -92,6 +124,7 @@ if [ "$FW_ACTIVE" -eq 0 ]; then
 fi
 
 # CPU/MEM/DISK 현재 사용률 수집
+# 4) 리소스 수집
 CPU_USAGE=$(get_cpu_usage)
 MEM_USAGE=$(free | awk '/Mem:/ {printf "%.1f", ($3/$2)*100}')
 DISK_USED=$(df -P / | awk 'NR==2 {gsub("%","",$5); print $5}')
@@ -113,6 +146,9 @@ if is_number_gt "$DISK_USED" "$DISK_WARN"; then
 fi
 
 # 로그 디렉토리 보장 -> 필요 시 회전 -> 단일 라인 누적 기록
+# 5) 로그 기록
+#    포맷: [YYYY-MM-DD HH:MM:SS] PID:... CPU:..% MEM:..% DISK_USED:..%
+#    후속 파싱(report.sh)이 이 포맷을 전제로 하므로 필드 키워드를 고정한다.
 mkdir -p "$AGENT_LOG_DIR"
 rotate_logs
 printf '[%s] PID:%s CPU:%s%% MEM:%s%% DISK_USED:%s%%\n' "$(date '+%F %T')" "$PID" "$CPU_USAGE" "$MEM_USAGE" "$DISK_USED" >> "$LOG_FILE"

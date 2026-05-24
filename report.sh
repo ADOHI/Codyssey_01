@@ -1,6 +1,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# ---------------------------------------------------------------------------
+# report.sh
+# ---------------------------------------------------------------------------
+# 목적:
+#   monitor.log를 읽어 CPU/MEM/DISK의 평균/최대/최소/샘플 수를 계산한다.
+#
+# 입력:
+#   $1: 로그 파일 경로(기본: /var/log/agent-app/monitor.log)
+#   $2: 시작 시각(선택, YYYY-MM-DD HH:MM:SS)
+#   $3: 종료 시각(선택, YYYY-MM-DD HH:MM:SS)
+#
+# 출력:
+#   콘솔 통계 리포트 (평균/최대/최소/샘플 수)
+# ---------------------------------------------------------------------------
+
 # 사용법:
 #   report.sh [LOG_FILE] [START_TS] [END_TS]
 # 예시:
@@ -19,6 +34,10 @@ fi
 # 시간 범위를 주면 [start <= timestamp <= end] 샘플만 집계한다.
 awk -v start="$START_TS" -v end="$END_TS" '
 function trim(s) { gsub(/^[ \t]+|[ \t]+$/, "", s); return s }
+
+# metric별 집계 상태를 갱신:
+#   - min/max 및 해당 시각
+#   - 합계(sum)와 개수(cnt)
 function update(metric, value, ts) {
   if (!(metric in cnt)) {
     min[metric]=value; max[metric]=value
@@ -30,11 +49,17 @@ function update(metric, value, ts) {
   cnt[metric]++
 }
 {
+  # 로그 라인 형식이 아닌 경우 무시
   if ($0 !~ /^\[/) next
+
+  # 타임스탬프는 "[YYYY-MM-DD HH:MM:SS]" 구간에서 잘라낸다.
   ts = substr($0, 2, 19)
+
+  # 시간 필터 적용
   if (start != "" && ts < start) next
   if (end != "" && ts > end) next
 
+  # 각 항목은 키워드 기반 정규식으로 파싱
   cpu = mem = disk = ""
   if (match($0, /CPU:[0-9.]+%/)) {
     cpu = substr($0, RSTART+4, RLENGTH-5)+0
@@ -50,6 +75,7 @@ function update(metric, value, ts) {
   }
 }
 END {
+  # 범위 내 샘플이 하나도 없으면 안내 메시지 출력 후 정상 종료
   if (!("CPU" in cnt) && !("MEM" in cnt) && !("DISK" in cnt)) {
     print "[INFO] no matching samples in range"
     exit 0

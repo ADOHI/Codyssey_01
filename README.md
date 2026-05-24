@@ -7,8 +7,9 @@
 
 ## 1) 작업 환경
 
-- 호스트: Windows 10 + WSL2
-- 리눅스 환경: Ubuntu (systemd 활성, 과제의 "Ubuntu 22.04 또는 동등 환경" 조건 충족)
+- 호스트: Windows (NT 커널 `10.0.26200.8457`, 일반적으로 Windows 11 계열 빌드) + WSL2
+- 리눅스 환경: Ubuntu `24.04.1 LTS` (Noble Numbat, systemd 활성)
+- WSL 커널: `6.6.114.1-microsoft-standard-WSL2`
 - 제공 앱 위치: `C:\Users\adohi\Downloads\agent-app.zip`
 - 리눅스 실행 파일: `agent-app-linux-x86` (Python 소스가 아닌 바이너리 제공)
 - 최종 AGENT_HOME: `/home/agent-admin/agent-app`

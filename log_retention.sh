@@ -1,6 +1,22 @@
 #!/usr/bin/env bash
 set -u
 
+# ---------------------------------------------------------------------------
+# log_retention.sh
+# ---------------------------------------------------------------------------
+# 목적:
+#   시간 기반 로그 보존 정책 수행
+#
+# 정책:
+#   1) /var/log/agent-app/*.log 중 7일 경과 파일을 gzip 압축
+#   2) 압축 파일(.gz)을 /var/log/monitor/agent-app/archive 로 이동
+#   3) archive/*.gz 중 30일 경과 파일 삭제
+#
+# 설계 원칙:
+#   - 예외 상황(권한 부족, 대상 없음, 디렉토리 없음)에서 즉시 크래시보다
+#     경고 메시지와 안전 종료를 우선한다.
+# ---------------------------------------------------------------------------
+
 # 시간 기반 로그 보존 정책:
 # 1) /var/log/agent-app/*.log 중 7일 지난 파일 압축(gzip)
 # 2) 압축 파일을 /var/log/monitor/agent-app/archive/ 로 이동
@@ -16,11 +32,13 @@ if [ ! -d "$LOG_DIR" ]; then
   exit 0
 fi
 
+# 쓰기 권한이 없으면 압축/이동 작업이 불가능하므로 안전 종료
 if [ ! -w "$LOG_DIR" ]; then
   echo "[WARNING] insufficient permission on $LOG_DIR"
   exit 0
 fi
 
+# 아카이브 디렉토리가 없으면 생성 시도, 실패하면 경고 후 종료
 mkdir -p "$ARCHIVE_DIR" 2>/dev/null || {
   echo "[WARNING] cannot create archive directory: $ARCHIVE_DIR"
   exit 0
@@ -32,6 +50,7 @@ if ! find "$LOG_DIR" -maxdepth 1 -type f -name "*.log" -mtime +7 -print -quit | 
 else
   # 공백/특수문자 파일명 안전 처리를 위해 -print0 + read -d '' 사용
   find "$LOG_DIR" -maxdepth 1 -type f -name "*.log" -mtime +7 -print0 | while IFS= read -r -d '' f; do
+    # gzip -f: 기존 .gz가 있어도 강제로 덮어쓰기
     if gzip -f "$f"; then
       base="$(basename "$f").gz"
       # 아카이브 이동 실패는 경고만 남기고 다음 파일 처리 계속
@@ -56,6 +75,9 @@ else
   }
 fi
 
+# 최종 상태 보고:
+# WARN==0 -> 전체 성공
+# WARN==1 -> 일부 경고 발생(치명 실패 아님)
 if [ "$WARN" -eq 0 ]; then
   echo "[INFO] log retention completed safely"
 else
