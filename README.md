@@ -514,6 +514,34 @@ chmod 750 /home/agent-admin/agent-app/bin/report.sh
 /home/agent-admin/agent-app/bin/log_retention.sh
 ```
 
+실행 결과(실제 출력):
+
+```text
+[INFO] log retention completed safely
+```
+
+아카이브 이동/삭제 검증(테스트 파일 기반):
+
+```text
+=== BEFORE ===
+-rw-r--r-- 1 agent-admin agent-core   9052 ... monitor.log
+-rw-r--r-- 1 root        agent-core     27 ... retention_test_case2.log
+-rw-r--r-- 1 root        agent-core     51 ... retention_test_case2_archive.log.gz
+
+=== SCRIPT OUTPUT ===
+[INFO] log retention completed safely
+
+=== AFTER ===
+-rw-r--r-- 1 agent-admin agent-core   9052 ... monitor.log
+-rw-r--r-- 1 agent-admin agent-core     72 ... retention_test_case2.log.gz
+```
+
+해석:
+
+- `retention_test_case2.log`(7일+ 경과) -> 압축되어 `retention_test_case2.log.gz`로 archive에 이동됨
+- `retention_test_case2_archive.log.gz`(30일+ 경과) -> 삭제됨
+- 상세 원문은 `artifacts/log_retention.evidence.txt` 파일에 보관
+
 배포/사전 준비 명령어:
 
 ```bash

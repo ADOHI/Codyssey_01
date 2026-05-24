@@ -1,0 +1,11 @@
+=== BEFORE ===
+-rw-r--r-- 1 agent-admin agent-core   9052 May 24 15:26 monitor.log
+-rw-r--r-- 1 root        agent-core     27 May 16 15:26 retention_test_case2.log
+-rw-r--r-- 1 root        agent-core 51 Apr 23 15:26 retention_test_case2_archive.log.gz
+
+=== SCRIPT OUTPUT ===
+[INFO] log retention completed safely
+
+=== AFTER ===
+-rw-r--r-- 1 agent-admin agent-core   9052 May 24 15:26 monitor.log
+-rw-r--r-- 1 agent-admin agent-core 72 May 16 15:26 retention_test_case2.log.gz
