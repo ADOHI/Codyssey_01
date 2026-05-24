@@ -433,6 +433,17 @@ sleep 70
 wc -l /var/log/agent-app/monitor.log
 ```
 
+검증 결과(실제 출력):
+
+```text
+CRON:
+* * * * * /home/agent-admin/agent-app/bin/monitor.sh
+BEFORE:
+128 /var/log/agent-app/monitor.log
+AFTER:
+129 /var/log/agent-app/monitor.log
+```
+
 ---
 
 ### 단위 F. 보너스 구현
