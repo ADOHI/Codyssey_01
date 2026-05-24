@@ -140,6 +140,14 @@ id agent-dev
 id agent-test
 ```
 
+검증 결과:
+
+```text
+uid=1001(agent-admin) gid=1003(agent-admin) groups=1003(agent-admin),1001(agent-common),1002(agent-core)
+uid=1002(agent-dev) gid=1004(agent-dev) groups=1004(agent-dev),1001(agent-common),1002(agent-core)
+uid=1003(agent-test) gid=1005(agent-test) groups=1005(agent-test),1001(agent-common)
+```
+
 검증 요약:
 
 - `agent-admin`: `agent-common`, `agent-core` 포함
