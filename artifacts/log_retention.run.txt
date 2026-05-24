@@ -1,0 +1,1 @@
+[INFO] log retention completed safely
