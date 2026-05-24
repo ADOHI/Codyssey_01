@@ -296,4 +296,3 @@ DISK Used : 1%
 - 자동화 스크립트: `monitor.sh`
 - 보너스 스크립트(리포트): `report.sh`
 - 보너스 스크립트(보존 정책): `log_retention.sh`
-
