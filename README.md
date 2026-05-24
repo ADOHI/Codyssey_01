@@ -312,6 +312,12 @@ runuser -u agent-admin -- bash -lc 'source /etc/profile.d/agent-app.sh; nohup /h
 ss -tulnp | awk '/:15034/ {print}'
 ```
 
+검증 결과(실제 출력):
+
+```text
+tcp LISTEN 0 1 0.0.0.0:15034 0.0.0.0:* users:(("agent_app",pid=6116,fd=4))
+```
+
 실행 로그 발췌:
 
 ```text
