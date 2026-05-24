@@ -256,6 +256,23 @@ EOF
 chmod 644 /etc/profile.d/agent-app.sh
 ```
 
+검증 명령어:
+
+```bash
+# 일반 계정 세션에서 확인
+runuser -u agent-admin -- bash -lc 'source /etc/profile.d/agent-app.sh; env | sort | grep "^AGENT_"'
+```
+
+검증 결과:
+
+```text
+AGENT_HOME=/home/agent-admin/agent-app
+AGENT_KEY_PATH=/home/agent-admin/agent-app/api_keys
+AGENT_LOG_DIR=/var/log/agent-app
+AGENT_PORT=15034
+AGENT_UPLOAD_DIR=/home/agent-admin/agent-app/upload_files
+```
+
 #### C-2. 키 파일
 
 - `/home/agent-admin/agent-app/api_keys/secret.key`
