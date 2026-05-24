@@ -187,11 +187,46 @@ getfacl -p /home/agent-admin/agent-app/api_keys
 getfacl -p /var/log/agent-app
 ```
 
-검증 결과(요약):
+검증 결과(실제 출력):
 
-- `upload_files` -> group `agent-common`, ACL `group:agent-common:rwx`
-- `api_keys` -> group `agent-core`, ACL `group:agent-core:rwx`
-- `/var/log/agent-app` -> group `agent-core`, ACL `group:agent-core:rwx`
+```text
+drwxr-x---  5 agent-admin agent-core   4096 ... /home/agent-admin/agent-app
+drwxrws---+ 2 agent-admin agent-core   4096 ... /home/agent-admin/agent-app/api_keys
+drwxrws---+ 2 agent-admin agent-common 4096 ... /home/agent-admin/agent-app/upload_files
+drwxrws---+ 2 agent-admin agent-core   4096 ... /var/log/agent-app
+
+# file: /home/agent-admin/agent-app/upload_files
+# owner: agent-admin
+# group: agent-common
+user::rwx
+group::rwx
+group:agent-common:rwx
+mask::rwx
+other::---
+
+# file: /home/agent-admin/agent-app/api_keys
+# owner: agent-admin
+# group: agent-core
+user::rwx
+group::rwx
+group:agent-core:rwx
+mask::rwx
+other::---
+
+# file: /var/log/agent-app
+# owner: agent-admin
+# group: agent-core
+user::rwx
+group::rwx
+group:agent-core:rwx
+mask::rwx
+other::---
+```
+
+검증 포인트 정리:
+
+- `upload_files`는 `agent-common` 그룹 쓰기 가능 (협업 영역)
+- `api_keys`, `/var/log/agent-app`는 `agent-core` 그룹 전용 (민감 영역)
 
 ---
 
